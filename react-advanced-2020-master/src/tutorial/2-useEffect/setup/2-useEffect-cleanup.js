@@ -1,10 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 // cleanup function
 // second argument
 
 const UseEffectCleanup = () => {
-  return <h2>useEffect cleanup</h2>;
-};
+  const [value, setValue] = useState(window.innerWidth)
+  const checkSize = () => {
+    setValue(window.innerWidth)
+  }
+  useEffect(() => {
+    window.addEventListener('resize', checkSize)
+    return () => {
+      window.removeEventListener('resize', checkSize)
+    }
+  })
 
-export default UseEffectCleanup;
+  return (
+    <>
+      <h1>window</h1>
+      <h2>{`${value} px`}</h2>
+    </>
+  )
+}
+
+export default UseEffectCleanup
