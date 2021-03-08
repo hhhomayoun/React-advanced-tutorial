@@ -9,20 +9,21 @@ import React, { useState } from 'react'
 const ControlledInputs = () => {
   // const [firstName, setFirstName] = useState('');
   // const [email, setEmail] = useState('');
-  // const [people, setPeople] = useState([]);
+  const [person, setPerson] = useState({ id: '', firstName: '', email: '' })
+  const [people, setPeople] = useState([])
 
+  const handleChange = (e) => {
+    e.preventDefault()
+    const name = e.target.name
+    const value = e.target.value
+    setPerson({ ...person, [name]: value })
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (firstName && email) {
-      const person = { id: new Date().getTime().toString(), firstName, email }
-      console.log(person)
-      setPeople((people) => {
-        return [...people, person]
-      })
-      setFirstName('')
-      setEmail('')
-    } else {
-      console.log('empty values')
+    if (person.firstName && person.email) {
+      const newPerson = { ...person, id: new Date().getTime().toString() }
+      setPeople([...people, newPerson])
+      setPerson({ firstName: '', email: '' })
     }
   }
   return (
@@ -35,8 +36,8 @@ const ControlledInputs = () => {
               type='text'
               id='firstName'
               name='firstName'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={person.firstName}
+              onChange={handleChange}
             />
           </div>
           <div className='form-control'>
@@ -45,8 +46,8 @@ const ControlledInputs = () => {
               type='email'
               id='email'
               name='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={person.email}
+              onChange={handleChange}
             />
           </div>
           <button type='submit'>add person</button>
